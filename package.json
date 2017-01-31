@@ -1,0 +1,37 @@
+{
+  "private": true,
+  "scripts": {
+    "prod": "gulp --production",
+    "dev": "gulp watch"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-sass": "^3.3.7",
+    "buble": "^0.15.1",
+    "buble-loader": "^0.4.0",
+    "css-loader": "^0.26.1",
+    "font-awesome": "^4.7.0",
+    "gulp": "^3.9.1",
+    "jquery": "^3.1.0",
+    "laravel-elixir": "^6.0.0-14",
+    "laravel-elixir-vue-2": "^0.2.0",
+    "laravel-elixir-webpack-official": "^1.0.2",
+    "lodash": "^4.16.2",
+    "vue": "^2.0.1",
+    "vue-loader": "^10.0.2",
+    "vue-resource": "^1.0.3",
+    "vue-template-compiler": "^2.1.8"
+  },
+  "name": "shcart-laravel",
+  "description": "<p align=\"center\"><img src=\"https://laravel.com/assets/img/components/logo-laravel.svg\"></p>",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "author": "Gabriel Flores",
+  "license": "ISC",
+  "dependencies": {
+    "animate.css": "^3.5.2"
+  }
+}
