@@ -6,6 +6,16 @@ Route::get('/', [
     'as' => 'product.index'
 ]);
 
+Route::get('productos', [
+    'uses' => 'ProductController@productos',
+    'as' => 'product.productos'
+]);
+
+Route::get('marca/{id}', [
+    'uses' => 'ProductController@marca',
+    'as' => 'product.marca'
+]);
+
 //Compras
 Route::group(['prefix' => 'compras'], function() {
     

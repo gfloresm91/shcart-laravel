@@ -14,7 +14,9 @@ use Auth;
 //Models
 use shcart\Cart;
 use shcart\Product;
+use shcart\Categories;
 use shcart\Order;
+use shcart\Brand;
 
 // Valor USD
 use Exchanger\Service\Service;
@@ -30,12 +32,64 @@ class ProductController extends Controller
     //route: product.index
     //params:
     //Models: shcart\Product
-    //return: $products -> views/shop/index
+    //        shcart\Categories
+    //        shcart\Brand
+    //return: $ofertas, $categorias, $marcas, $products -> views/shop/index
     public function index()
     {
-        $products = Product::all();
+        $ofertas = Product::where('oferta',1)->get();
+        $categorias = Categories::with('marcas')->get();
+        $marcas = Brand::with('productos')->get();
+        $products = Product::all()->sortByDesc('id')->take(6);
 
-        return view('shop.index',['products' => $products]);
+        return view('shop.index',[
+            'ofertas' => $ofertas,
+            'categorias' => $categorias,
+            'marcas' => $marcas,
+            'products' => $products
+            ]);
+    }
+
+    //Page: Listado de productos
+    //route: product.productos
+    //params:
+    //Models: shcart\Product
+    //        shcart\Categories
+    //        shcart\Brand
+    //return: $categorias, $marcas, $products -> views/shop/productos
+    public function productos()
+    {
+        $categorias = Categories::with('marcas')->get();
+        $marcas = Brand::with('productos')->get();
+        $products = Product::orderBy('id','DESC')->paginate(12);
+
+        return view('shop.productos',[
+            'categorias' => $categorias,
+            'marcas' => $marcas,
+            'products' => $products
+        ]);
+    }
+
+    //Page: Productos de una marca segun su id
+    //route: product.marca
+    //params: $id->marca_id
+    //Models: shcart\Product
+    //        shcart\Categories
+    //        shcart\Brand
+    //return: $categorias, $marcas, $products -> views/shop/marca
+    public function marca($id)
+    {
+        $categorias = Categories::with('marcas')->get();
+        $marcas = Brand::with('productos')->get();
+        $products = Brand::find($id)->productos()->orderBy('id','DESC')->paginate(12);
+        $title = Brand::select('nombre')->find($id);
+        
+        return view('shop.marca',[
+            'categorias' => $categorias,
+            'marcas' => $marcas,
+            'products' => $products,
+            'title' => $title
+        ]);
     }
 
     public function carro()
@@ -119,7 +173,7 @@ class ProductController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        Stripe::setApiKey('coloca aqui tu private key');
+        Stripe::setApiKey('Coloca tu API Key aquí');
 
         try
         {

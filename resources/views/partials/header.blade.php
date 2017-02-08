@@ -26,7 +26,7 @@
     <div class="header-middle">{{-- Header medio --}}
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-5 col-lg-5">
                     <div class="logo pull-left">
                         <a href="{{ route('product.index') }}"><img src="{{ asset('images/home/logo.png') }}" alt="Inicio" title="inicio" /></a>
                     </div>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-7 col-lg-7">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
                             
@@ -135,7 +135,9 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="{{ route('product.index') }}" class="active">Inicio</a></li>
+                            <li><a href="{{ route('product.index') }}" class="{{URL::current() == URL::route('product.index') ? 'active' : ''}}">Inicio</a></li>
+                            <li><a href="{{ route('product.productos') }}" class="{{URL::current() == URL::route('product.productos') ? 'active' : ''}}">Productos</a></li>
+                            {{--
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html">Products</a></li>
@@ -153,6 +155,7 @@
                             </li> 
                             <li><a href="404.html">404</a></li>
                             <li><a href="contact-us.html">Contact</a></li>
+                            --}}
                         </ul>
                     </div>
                 </div>

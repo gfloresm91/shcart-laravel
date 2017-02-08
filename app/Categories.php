@@ -4,14 +4,14 @@ namespace shcart;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Categories extends Model
 {
     //
     protected $fillable = [
-            'rutaimagen','titulo','descripcion','precio','oferta'
-        ];
-    
-    public function marca()
+            'nombre'
+    ];
+
+    public function marcas()
     {
         return $this->belongsToMany('shcart\Brand');
     }
