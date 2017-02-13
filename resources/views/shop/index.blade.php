@@ -5,6 +5,7 @@
 @section('slider')
 <section id="slider">{{-- Slider --}}
 		<div class="container">
+        @include('partials.notificaciones')
 			<div class="row">
 				<div class="col-sm-12">
 					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
@@ -21,7 +22,7 @@
                                             <h1><span>Oferta</span> E-SHOPPER</h1>
                                             <h2>{{$oferta->titulo}}</h2>
                                             <p>{{str_limit($oferta->descripcion,100)}} </p>
-                                            <button type="button" class="btn btn-default get">Ver detalle</button>
+                                            <a href="{{route('product.productodetalle',['id' => $oferta->id])}}" class="btn btn-default get">Ver detalle</a>
                                         </div>
                                         <div class="col-sm-6">
                                             <img src="images/home/girl1.jpg" class="girl img-responsive" alt="" />
@@ -65,35 +66,7 @@
             <div class="col-sm-9 padding-right">
                 <div class="features_items">{{-- Ultimos productos --}}
                     <h2 class="title text-center">Productos Nuevos</h2>
-                    @foreach($products->chunk(3) as $productos)
-                        @foreach($productos as $item)
-                            <div class="col-sm-4">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="{{$item->rutaimagen}}" alt="" />
-                                                <h2>$ {{$item->precio}}</h2>
-                                                <p>{{$item->titulo}}</p>
-                                                <a href="{{route('product.anadiralcarro',['id' => $item->id])}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Añadir al carro</a>
-                                            </div>
-                                            <div class="product-overlay">
-                                                <div class="overlay-content">
-                                                    <h2>$ {{$item->precio}}</h2>
-                                                    <p>{{$item->descripcion}}</p>
-                                                    <a href="{{route('product.anadiralcarro',['id' => $item->id])}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Añadir al carro</a>
-                                                </div>
-                                            </div>
-                                    </div>
-                                    <div class="choose">
-                                        <ul class="nav nav-pills nav-justified">
-                                            <li><a href="#"><i class="fa fa-plus-square"></i>Añadir a favoritos</a></li>
-                                            <li><a href="#"><i class="fa fa-plus-square"></i>Comparar</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endforeach
+                    @include('partials.productos')
                     
                 </div>{{-- ./Ultimos productos --}}
                 
@@ -115,13 +88,19 @@
                                             <div class="product-image-wrapper">
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
-                                                        <img src="{{$producto->rutaimagen}}" alt="" />
+                                                        @foreach($producto->imagenes->take(1) as $imagen)
+                                                            <img src="{{$imagen->rutaimagen}}" alt="" />
+                                                        @endforeach
                                                         <h2>${{$producto->precio}}</h2>
                                                         <p>{{$producto->titulo}}</p>
-                                                        <a href="{{route('product.anadiralcarro',['id' => $producto->id])}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Añadir al carro</a>
+                                                        <a href="{{route('product.anadiralcarro',['id' => $producto->id])}}" class="btn btn-default add-to-cart"><i class="fa fa-plus"></i>Añadir Carro</a>
                                                     </div>   
                                                 </div>
+                                                <div class="choose">
+                                                    <a href="{{route('product.productodetalle',['id' => $producto->id])}}" class="btn btn-info btn-block">Ver detalle</a>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                     @endforeach
                                 @endforeach

@@ -8,11 +8,16 @@ class Product extends Model
 {
     //
     protected $fillable = [
-            'rutaimagen','titulo','descripcion','precio','oferta'
+            'titulo','descripcion','condicion','precio','oferta'
         ];
     
     public function marca()
     {
         return $this->belongsToMany('shcart\Brand');
+    }
+
+    public function imagenes()
+    {
+        return $this->hasMany('shcart\Image');
     }
 }

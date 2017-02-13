@@ -39,6 +39,26 @@ class Cart
         $this->totalPrecio += $item->precio;
     }
 
+    public function addmany($item, $cantidad, $id)
+    {
+        $itemAlmacenado = [
+            'cantidad' => $cantidad,
+            'precio' => $item->precio,
+            'item' => $item
+        ];
+
+        if($this->items)
+        {
+            if(array_key_exists($id, $this->items))
+                $itemAlmacenado = $this->items[$id];
+        }
+
+        $itemAlmacenado['precio'] = $item->precio * $itemAlmacenado['cantidad'];
+        $this->items[$id] = $itemAlmacenado;
+        $this->totalCantidad += $cantidad;
+        $this->totalPrecio += $itemAlmacenado['precio'];
+    }
+
     public function removeaitem($id)
     {
         $this->items[$id]['cantidad']--;

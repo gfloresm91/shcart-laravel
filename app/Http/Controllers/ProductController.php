@@ -18,6 +18,9 @@ use shcart\Categories;
 use shcart\Order;
 use shcart\Brand;
 
+//Requests
+use shcart\Http\Requests\OrderRequest;
+
 // Valor USD
 use Exchanger\Service\Service;
 use Exchanger\Contract\ExchangeRateQuery;
@@ -40,7 +43,7 @@ class ProductController extends Controller
         $ofertas = Product::where('oferta',1)->get();
         $categorias = Categories::with('marcas')->get();
         $marcas = Brand::with('productos')->get();
-        $products = Product::all()->sortByDesc('id')->take(6);
+        $products = Product::with('imagenes')->orderBy('id','DESC')->take(6)->get();
 
         return view('shop.index',[
             'ofertas' => $ofertas,
@@ -70,13 +73,33 @@ class ProductController extends Controller
         ]);
     }
 
+    //Page: Detalle del producto segun id
+    //route: product.productodetalle
+    //params: $id->producto_id
+    //Models: shcart\Product
+    //        shcart\Categories
+    //        shcart\Brand
+    //return: $categorias, $marcas, $producto -> views/shop/productodetalle
+    public function productodetalle($id)
+    {
+        $categorias = Categories::with('marcas')->get();
+        $marcas = Brand::with('productos')->get();
+        $producto = Product::find($id);
+        
+        return view('shop.productodetalle',[
+            'categorias' => $categorias,
+            'marcas' => $marcas,
+            'producto' => $producto
+        ]);
+    }
+
     //Page: Productos de una marca segun su id
     //route: product.marca
     //params: $id->marca_id
     //Models: shcart\Product
     //        shcart\Categories
     //        shcart\Brand
-    //return: $categorias, $marcas, $products -> views/shop/marca
+    //return: $categorias, $marcas, $products, $title -> views/shop/marca
     public function marca($id)
     {
         $categorias = Categories::with('marcas')->get();
@@ -92,6 +115,12 @@ class ProductController extends Controller
         ]);
     }
 
+    //Page: Carro de compras
+    //route: product.carro
+    //params: 
+    //Models: shcart\Product
+    //        shcart\Cart
+    //return: $products, $totalPrecio -> views/shop/carrodecompras
     public function carro()
     {
         if(!Session::has('cart'))
@@ -113,23 +142,53 @@ class ProductController extends Controller
         $cart->add($product, $product->id);
         
         $request->session()->put('cart', $cart);
+
+        $notificacion = array(
+            'message' => $product->titulo.' añadido al carro de compras', 
+            'alert-type' => 'success'
+        );
+
+        return Redirect::back()->with($notificacion);
         
-        return Redirect::route('product.index');
+    }
+
+     public function postanadiralcarro(Request $request)
+    {
+        $product = Product::find($request->id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->addmany($product, $request->cantidad, $product->id);
         
+        $request->session()->put('cart', $cart);
+
+        $notificacion = array(
+            'message' => $product->titulo.' añadido al carro de compras', 
+            'alert-type' => 'success'
+        );
+        
+        return Redirect::route('product.index')->with($notificacion);
     }
 
     public function removerunitemcarro($id)
     {
+        $product = Product::find($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->removeaitem($id);
 
         Session::put('cart', $cart);
-        return Redirect::route('product.carro');
+
+        $notificacion = array(
+            'message' => $product->titulo.' ha sido reducido en 1', 
+            'alert-type' => 'warning'
+        );
+
+        return Redirect::back()->with($notificacion);
     }
 
     public function removeritemcarro($id)
     {
+        $product = Product::find($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->removeallitem($id);
@@ -144,7 +203,13 @@ class ProductController extends Controller
         }
 
         Session::put('cart', $cart);
-        return Redirect::route('product.carro');
+
+        $notificacion = array(
+            'message' => $product->titulo.' ha sido eliminado', 
+            'alert-type' => 'error'
+        );
+
+        return Redirect::back()->with($notificacion);
     }
 
     public function comprar()
@@ -159,6 +224,7 @@ class ProductController extends Controller
         $total = $cart->totalPrecio;
         
         return view('shop.comprar', [
+            'products' => $cart->items,
             'total' => $total
         ]);
     }
@@ -173,8 +239,7 @@ class ProductController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        Stripe::setApiKey('Coloca tu API Key aquí');
-
+        Stripe::setApiKey('Colocar API stripe aquí');
         try
         {
             $rate = Swap::latest('USD/CLP');

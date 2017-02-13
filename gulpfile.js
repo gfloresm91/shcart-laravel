@@ -21,7 +21,8 @@ elixir((mix) => {
             [
                 'bootstrap/dist/css/bootstrap.css',
                 'font-awesome/css/font-awesome.css',
-                'animate.css/animate.css'
+                'animate.css/animate.css',
+                'toastr/toastr.scss'
             ],
             'public/css/appcss.min.css',            
             './node_modules/')
@@ -37,7 +38,8 @@ elixir((mix) => {
         .scripts(
             [
                 'jquery/dist/jquery.js',
-                'bootstrap-sass/assets/javascripts/bootstrap.js'
+                'bootstrap-sass/assets/javascripts/bootstrap.js',
+                'toastr/toastr.js'
             ],
             'public/js/appgeneral.min.js',
             './node_modules/')

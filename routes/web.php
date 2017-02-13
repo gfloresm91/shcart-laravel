@@ -11,6 +11,11 @@ Route::get('productos', [
     'as' => 'product.productos'
 ]);
 
+Route::get('detalle-producto/{id}', [
+    'uses' => 'ProductController@productodetalle',
+    'as' => 'product.productodetalle'
+]);
+
 Route::get('marca/{id}', [
     'uses' => 'ProductController@marca',
     'as' => 'product.marca'
@@ -33,6 +38,10 @@ Route::group(['prefix' => 'compras'], function() {
     Route::get('anadir-al-carro/{id}', [
     'uses' => 'ProductController@anadiralcarro',
     'as' => 'product.anadiralcarro'
+    ]);
+    Route::post('anadir-al-carro', [
+    'uses' => 'ProductController@postanadiralcarro',
+    'as' => 'product.postanadiralcarro'
     ]);
     Route::get('remover-un-item/{id}', [
     'uses' => 'ProductController@removerunitemcarro',
