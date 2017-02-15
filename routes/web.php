@@ -26,12 +26,14 @@ Route::group(['prefix' => 'compras'], function() {
     
     Route::get('comprar', [
         'uses' => 'ProductController@comprar',
-        'as' => 'product.comprar'
+        'as' => 'product.comprar',
+        'middleware' => 'auth'
     ]);
 
     Route::post('comprar', [
         'uses' => 'ProductController@postcomprar',
-        'as' => 'product.postcomprar'
+        'as' => 'product.postcomprar',
+        'middleware' => 'auth'
     ]);
     
     
@@ -67,4 +69,10 @@ Route::group(['prefix' => 'usuario'], function() {
         Route::get('perfil' , 'UserController@perfil')->middleware('auth')->name('user.perfil');
         Route::get('logout' , 'UserController@logout')->name('user.logout');
     });
+});
+
+//Busqueda
+use Illuminate\Http\Request;
+Route::get('/search', function (Request $request) {
+    return shcart\Product::search($request->search)->get();
 });

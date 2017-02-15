@@ -48,7 +48,6 @@
                         <ul class="nav navbar-nav">
                             
                             <li><a href="#"><i class="fa fa-star"></i> Lista de deseos</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li>
                                 <a href="{{route('product.carro')}}">
                                     <i class="fa fa-shopping-cart"></i> 
@@ -161,7 +160,9 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        <input type="text" placeholder="Buscar"/>
+                        <form action="{{url('/search')}}" method="GET">
+                            <input type="text" placeholder="Buscar" name="search"/>
+                        </form>
                     </div>
                 </div>
             </div>

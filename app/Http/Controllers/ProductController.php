@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 //Librerias
 use Session;
 use Redirect;
-use Stripe\Stripe;
-use Stripe\Charge;
 use Auth;
+use Stripe\Stripe;
 
 //Models
 use shcart\Cart;
@@ -20,14 +19,6 @@ use shcart\Brand;
 
 //Requests
 use shcart\Http\Requests\OrderRequest;
-
-// Valor USD
-use Exchanger\Service\Service;
-use Exchanger\Contract\ExchangeRateQuery;
-use Exchanger\ExchangeRate;
-use Swap\Service\Registry;
-use Swap\Builder;
-use Swap;
 
 class ProductController extends Controller
 {
@@ -117,7 +108,7 @@ class ProductController extends Controller
 
     //Page: Carro de compras
     //route: product.carro
-    //params: 
+    //params: Session->cart
     //Models: shcart\Product
     //        shcart\Cart
     //return: $products, $totalPrecio -> views/shop/carrodecompras
@@ -134,6 +125,12 @@ class ProductController extends Controller
             ]);
     }
 
+    //Page: Añadir elementos al carro de compras (de uno en uno)
+    //route: product.anadiralcarro
+    //params: Session->cart
+    //Models: shcart\Product
+    //        shcart\Cart
+    //return: $notificacion -> back
     public function anadiralcarro(Request $request, $id)
     {
         $product = Product::find($id);
@@ -152,7 +149,13 @@ class ProductController extends Controller
         
     }
 
-     public function postanadiralcarro(Request $request)
+    //Page: Añadir elementos al carro de compras (n cantidades definidas por el usuario)
+    //route: product.postanadiralcarro
+    //params: Session->cart, $request->productos
+    //Models: shcart\Product
+    //        shcart\Cart
+    //return: $notificacion -> back
+    public function postanadiralcarro(Request $request)
     {
         $product = Product::find($request->id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
@@ -166,9 +169,15 @@ class ProductController extends Controller
             'alert-type' => 'success'
         );
         
-        return Redirect::route('product.index')->with($notificacion);
+        return Redirect::back()->with($notificacion);
     }
 
+    //Page: Reduce en 1 el contenido del carro
+    //route: product.removerunitemcarro
+    //params: Session->cart, $id->product_id
+    //Models: shcart\Product
+    //        shcart\Cart
+    //return: $notificacion -> back
     public function removerunitemcarro($id)
     {
         $product = Product::find($id);
@@ -186,6 +195,12 @@ class ProductController extends Controller
         return Redirect::back()->with($notificacion);
     }
 
+    //Page: Elimina un producto del carro, independiente cuantas unidades tenga
+    //route: product.removeritemcarro
+    //params: Session->cart, $id->product_id
+    //Models: shcart\Product
+    //        shcart\Cart
+    //return: $notificacion -> back
     public function removeritemcarro($id)
     {
         $product = Product::find($id);
@@ -212,6 +227,11 @@ class ProductController extends Controller
         return Redirect::back()->with($notificacion);
     }
 
+    //Page: Comprar los articulos dejados en el carro de compras
+    //route: product.comprar
+    //params: Session->cart
+    //Models: shcart\Cart
+    //return: $products, $total -> views/shop/carrodecompras
     public function comprar()
     {
         if(!Session::has('cart'))
@@ -229,7 +249,12 @@ class ProductController extends Controller
         ]);
     }
 
-    public function postcomprar(Request $request)
+    //Page: Comprar los articulos dejados en el carro de compras
+    //route: product.postcomprar
+    //params: Session->cart, $request->productos
+    //Models: shcart\Cart
+    //return: $products, $total -> views/shop/carrodecompras
+    public function postcomprar(OrderRequest $request)
     {
         if(!Session::has('cart'))
         {
@@ -239,40 +264,23 @@ class ProductController extends Controller
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        Stripe::setApiKey('Colocar API stripe aquí');
+        Stripe::setApiKey('Coloca tu API Key Stripe aquí');
         try
-        {
-            $rate = Swap::latest('USD/CLP');
-            $charge = Charge::create(array(
-                "amount" => (number_format(($cart->totalPrecio / $rate->getValue()),2) * 100),
-                "currency" => "usd",
-                "description" => "Example charge",
-                "source" => $request->input('stripeToken'),
-                ));
-            
-            $order = Order::create([
-                        'user_id' => Auth::user()->id,
-                        'carro' => serialize($cart),
-                        'nombres' => $request->input('nombres'),
-                        'apellidos' => $request->input('apellidos'),
-                        'email' => $request->input('email'),
-                        'direccion' => $request->input('direccion'),
-                        'codigo_postal' => $request->input('codigo_postal'),
-                        'telefono' => $request->input('telefono'),
-                        'movil' => $request->input('movil'),
-                        'comentario' => $request->input('comentario'),
-                        'id_pago' => $charge->id
-                     ]);
-            Auth::user()->orders()->save($order);
+        {   
+            $order = Order::crear($cart, $request);
         }
         catch(Exception $e)
         {
             return Redirect::route('product.comprar')->with('error' , $e->getMessage());
         }
 
-
-
         Session::forget('cart');
-        return Redirect::route('product.index')->with('success' , 'Compra realizada con exito');
+        
+        $notificacion = array(
+            'message' => 'Su compra ha sido realizada, el id de la compra es #' . $order->id, 
+            'alert-type' => 'success'
+        );
+
+        return Redirect::route('product.index')->with($notificacion);;
     }
 }

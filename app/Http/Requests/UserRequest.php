@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 //Librerias
 use Illuminate\Support\Facades\Input;
+use Illuminate\Contracts\Validation\Validator;
 
 class UserRequest extends FormRequest
 {
@@ -36,12 +37,11 @@ class UserRequest extends FormRequest
         else
         {
             return [
-                'name' => 'required_if:buttonlogin,registrar',
+                'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required'
             ];
         }
     }
-
 
 }

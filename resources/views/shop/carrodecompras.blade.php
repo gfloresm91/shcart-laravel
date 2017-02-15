@@ -87,7 +87,7 @@
 							<li>Sub total <span>${{ !empty($totalPrecio) ? $totalPrecio : '0'}}</span></li>
 							<li>IVA <span>19%</span></li>
 							<li>Gastos de envio <span>$0</span></li>
-							<li>Total <span>${{ $totalPrecio * 1.19}}</span></li>
+							<li>Total <span>${{ !empty($totalPrecio) ? $totalPrecio * 1.19 : '0' }}</span></li>
 						</ul>
 							@if(!empty($totalPrecio))
 								<a class="btn btn-default btn-block check_out" href="{{route('product.comprar')}}">Confirmar compra</a>

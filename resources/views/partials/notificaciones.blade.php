@@ -13,10 +13,3 @@
         <p>{{ session('mensaje') }}</p>
     </div>
 @endif{{--./Usuario o contraseña incorrecta--}}
-@if(count($errors) > 0){{--Mensaje error--}}
-    <div class="alert alert-danger">
-    @foreach($errors->all() as $error)
-        <p>{{ $error }}</p>
-    @endforeach
-    </div>
-@endif{{--./Mensaje error--}}

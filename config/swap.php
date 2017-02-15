@@ -52,7 +52,6 @@ return [
     */
 
     'services' => [
-        'fixer' => true,
         'google' => true,
     ],
 

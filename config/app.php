@@ -184,6 +184,9 @@ return [
         shcart\Providers\RouteServiceProvider::class,
         Swap\Laravel\SwapServiceProvider::class,
 
+        //Laravel Scout
+        Laravel\Scout\ScoutServiceProvider::class,
+
     ],
 
     /*

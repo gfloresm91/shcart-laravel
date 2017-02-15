@@ -6,10 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "algolia/algoliasearch-client-php": "^1.14",
         "barryvdh/laravel-debugbar": "^2.3",
         "florianv/laravel-swap": "^1.1",
         "haifahrul/template-eshopper": "*",
         "laravel/framework": "5.3.*",
+        "laravel/scout": "^2.0",
         "laravelcollective/html": "^5.3.0",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.4",

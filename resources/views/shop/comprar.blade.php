@@ -75,6 +75,7 @@
 						<div class="bill-to">
 							<p>Metodo de pago</p>
 							<div class="form-one">
+								{{--
 								<select name="metododepago" id="metododepago">
                                     <option value="seleccione" select>Seleccione</option>
                                     <option value="bancaria">Transferencia Bancaria</option>
@@ -84,6 +85,7 @@
                                 </select>
                                 <br />
                                 <br />
+								--}}
                                 <input type="text" placeholder="Numero de tarjeta" name="numerotarjeta" data-stripe="number">
                                 <input type="text" placeholder="Mes expiración" name="mesexpiracion" data-stripe="exp_month">
 								<input type="text" placeholder="Año expiración" name="añoexpiracion" data-stripe="exp_year">
