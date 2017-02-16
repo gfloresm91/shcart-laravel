@@ -283,4 +283,17 @@ class ProductController extends Controller
 
         return Redirect::route('product.index')->with($notificacion);;
     }
+
+    //Page: Buscar segun parametro
+    //route: product.search
+    //params: $request->Busqueda
+    //Models: shcart\Product
+    //return: $productos -> views/shop/search
+    public function search(Request $request)
+    {
+        $productos = Product::search($request->search)->paginate();
+        return view('shop.search', [
+            'productos' => $productos
+        ]);
+    }
 }

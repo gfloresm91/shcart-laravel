@@ -72,7 +72,4 @@ Route::group(['prefix' => 'usuario'], function() {
 });
 
 //Busqueda
-use Illuminate\Http\Request;
-Route::get('/search', function (Request $request) {
-    return shcart\Product::search($request->search)->get();
-});
+Route::get('/search', 'ProductController@search')->name('product.search');
