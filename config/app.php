@@ -187,6 +187,12 @@ return [
         //Laravel Scout
         Laravel\Scout\ScoutServiceProvider::class,
 
+        //Laravel cashier
+        Laravel\Cashier\CashierServiceProvider::class,
+
+        //Laravel Socialite
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
     ],
 
     /*
@@ -242,6 +248,9 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         //
         'Swap' => Swap\Laravel\Facades\Swap::class,
+
+        //Laravel Socialite
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

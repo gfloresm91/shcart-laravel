@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
+use Socialite;
+use Log;
 
 //Requests
 use shcart\Http\Requests\UserRequest;
@@ -19,6 +21,7 @@ use shcart\Http\Requests\UserRequest;
 //Models
 use shcart\User;
 use shcart\Cart;
+use shcart\SocialProvider;
 
 class UserController extends Controller
 {
@@ -42,7 +45,7 @@ class UserController extends Controller
         //Boton login
         if(Input::get('buttonlogin') === "login")
         {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password]))
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember_me))
             {
                 if(Session::has('oldUrl'))
                 {
@@ -105,5 +108,63 @@ class UserController extends Controller
     {
         Auth::logout();
         return Redirect::route('product.index');
+    }
+
+    /**
+    * Redirect the user to the GitHub authentication page.
+    *
+    * @return Response
+    */
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return Response
+     */
+    public function handleProviderCallback($provider)
+    {        
+        try
+        {
+            $socialuser = Socialite::driver($provider)->user();
+
+            $socialprovider = SocialProvider::where('provider_id',$socialuser->getId())->first();
+
+            if(!$socialprovider)
+            {
+                $user = User::firstOrCreate([
+                        'email' => $socialuser->getEmail(),
+                        'name' => $socialuser->getName(),
+                        'nickname' => $socialuser->getNickname(),
+                        'avatar' => $socialuser->getAvatar()
+
+                    ]);
+
+                $user->socialproviders()->create(
+                    ['provider_id' => $socialuser->getId(), 'provider' => $provider]
+                );
+
+            }
+            else
+            {
+                $user = $socialprovider->user;
+            }
+
+            Auth::login($user);
+
+            return Redirect::route('product.index');
+        }
+        catch(\Exception $e)
+        {
+             Log::error($e->getMessage());
+             $notificacion = array(
+                    'message' => 'Se ha encontrado un problema con codigo #'.$e->getCode(), 
+                    'alert-type' => 'error'
+                );
+            return Redirect::route('product.index')->with($notificacion);
+        }
     }
 }

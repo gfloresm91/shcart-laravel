@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 //Librerias
 use Auth;
-use Stripe\Charge;
 use Swap;
 
 class Order extends Model
@@ -34,13 +33,14 @@ class Order extends Model
     //Crea una orden
     public static function crear($cart, $request)
     {
+        $user = Auth::user();
         $rate = Swap::latest('USD/CLP');
-        $charge = Charge::create(array(
-            "amount" => (number_format(($cart->totalPrecio / $rate->getValue()),2) * 100),
-            "currency" => "usd",
-            "description" => "Example charge",
-            "source" => $request->input('stripeToken'),
-            ));
+        $totalusd = (number_format(($cart->totalPrecio / $rate->getValue()),2) * 100);
+        
+        $charge = $user->charge($totalusd,[
+                        "description" => "Pago usuario ".Auth::user()->nombre. " ID #".Auth::user()->id,
+                        "source" => $request->input('stripeToken')
+                    ]);
 
         $order = Order::create([
                         'user_id' => Auth::user()->id,

@@ -33,6 +33,10 @@
   "license": "ISC",
   "dependencies": {
     "animate.css": "^3.5.2",
+    "bootstrap-social": "^5.1.1",
+    "gulp-uglify": "^2.0.1",
+    "laravel-elixir": "^6.0.0-15",
+    "stream-browserify": "^2.0.1",
     "toastr": "^2.1.2"
   }
 }

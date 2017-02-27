@@ -22,7 +22,8 @@ elixir((mix) => {
                 'bootstrap/dist/css/bootstrap.css',
                 'font-awesome/css/font-awesome.css',
                 'animate.css/animate.css',
-                'toastr/toastr.scss'
+                'toastr/toastr.scss',
+                'bootstrap-social/bootstrap-social.css'
             ],
             'public/css/appcss.min.css',            
             './node_modules/')

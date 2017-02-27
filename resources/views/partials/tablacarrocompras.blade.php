@@ -30,7 +30,7 @@
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_up" href="{{route('product.anadiralcarro', ['id' => $producto['item']['id']])}}"> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="{{$producto['cantidad']}}" autocomplete="off" size="2">
+									<input class="cart_quantity_input" type="text" name="quantity" value="{{$producto['cantidad']}}" autocomplete="off" size="2" disabled>
 									<a class="cart_quantity_down" href="{{route('product.removerunitemcarro', ['id' => $producto['item']['id']])}}"> - </a>
 								</div>
 							</td>

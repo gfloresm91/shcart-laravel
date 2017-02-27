@@ -64,6 +64,8 @@ Route::group(['prefix' => 'usuario'], function() {
     Route::group(['middleware' => 'guest'], function() {
         Route::get('login' , 'UserController@login')->name('user.login');
         Route::post('login' , 'UserController@postlogin')->name('user.postlogin');
+        Route::get('login/{provider}', 'UserController@redirectToProvider')->name('user.sociallogin');
+        Route::get('login/{provider}/callback', 'UserController@handleProviderCallback')->name('user.socialcallback');
     });
     Route::group(['middleware' => 'auth'], function() {
         Route::get('perfil' , 'UserController@perfil')->middleware('auth')->name('user.perfil');

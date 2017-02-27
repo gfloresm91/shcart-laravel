@@ -9,6 +9,8 @@ use Session;
 use Redirect;
 use Auth;
 use Stripe\Stripe;
+use Swap;
+use Socialite;
 
 //Models
 use shcart\Cart;
@@ -31,6 +33,7 @@ class ProductController extends Controller
     //return: $ofertas, $categorias, $marcas, $products -> views/shop/index
     public function index()
     {
+        $user = Auth::user();
         $ofertas = Product::where('oferta',1)->get();
         $categorias = Categories::with('marcas')->get();
         $marcas = Brand::with('productos')->get();
@@ -114,12 +117,14 @@ class ProductController extends Controller
     //return: $products, $totalPrecio -> views/shop/carrodecompras
     public function carro()
     {
+        
         if(!Session::has('cart'))
             return view('shop.carrodecompras', ['products' => null]);
         
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         return view('shop.carrodecompras', [
+            'carro' => $cart,
             'products' => $cart->items,
             'totalPrecio' => $cart->totalPrecio 
             ]);
@@ -157,6 +162,15 @@ class ProductController extends Controller
     //return: $notificacion -> back
     public function postanadiralcarro(Request $request)
     {
+        if($request->cantidad < 1)
+        {
+            $notificacion = array(
+                'message' => 'La cantidad de productos debe ser mayor a 0', 
+                'alert-type' => 'info'
+            );
+        
+            return Redirect::back()->with($notificacion);
+        }
         $product = Product::find($request->id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
@@ -235,17 +249,23 @@ class ProductController extends Controller
     public function comprar()
     {
         if(!Session::has('cart'))
-        {
             return view('shop.carrodecompras');
-        }
 
         $oldCart = Session::get('cart');
+        
+        if(count($oldCart->items) === 0)
+            return Redirect::route('product.carro');
+        
         $cart = new Cart($oldCart);
         $total = $cart->totalPrecio;
+
+        $rate = Swap::latest('USD/CLP');
+        $totalusd = (number_format(($cart->totalPrecio / $rate->getValue()),2) * 100); 
         
         return view('shop.comprar', [
             'products' => $cart->items,
-            'total' => $total
+            'total' => $total,
+            'totalusd' => $totalusd
         ]);
     }
 
@@ -257,14 +277,11 @@ class ProductController extends Controller
     public function postcomprar(OrderRequest $request)
     {
         if(!Session::has('cart'))
-        {
             return Redirect::route('product.carro');
-        }
 
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
 
-        Stripe::setApiKey('Coloca tu API Key Stripe aquí');
         try
         {   
             $order = Order::crear($cart, $request);

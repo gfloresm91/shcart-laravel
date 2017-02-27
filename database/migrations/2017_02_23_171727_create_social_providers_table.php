@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBrandProductTable extends Migration
+class CreateSocialProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateBrandProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('brand_product', function (Blueprint $table) {
+        Schema::create('social_providers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('brand_id');
-            $table->integer('product_id');
+            $table->integer('user_id')->unsigned()->references('id')->on('users');
+            $table->string('provider_id');
+            $table->string('provider');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateBrandProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brand_product');
+        Schema::dropIfExists('social_providers');
     }
 }

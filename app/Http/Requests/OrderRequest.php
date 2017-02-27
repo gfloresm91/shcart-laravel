@@ -32,11 +32,6 @@ class OrderRequest extends FormRequest
             'codigo_postal' => 'required',
             'telefono' => 'required',
             'movil' => 'required',
-
-            'numerotarjeta' => 'required',
-            'mesexpiracion' => 'required',
-            'añoexpiracion' => 'required',
-            'tarjetacvc' => 'required'
         ];
     }
 }

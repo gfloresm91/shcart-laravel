@@ -5,9 +5,13 @@ namespace shcart;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+//Librerias
+use Laravel\Cashier\Billable;
+
 class User extends Authenticatable
 {
     use Notifiable;
+    use Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +19,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 
+        'email', 
+        'password', 
+        'nickname', 
+        'avatar'
     ];
 
     /**
@@ -30,5 +38,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany('shcart\Order');
+    }
+
+    public function socialproviders()
+    {
+        return $this->hasMany(SocialProvider::class);
     }
 }
