@@ -53,7 +53,8 @@
                 </div>{{--./Registrar--}}
             </div>
         </div>
-        <div class="row">
+        {{-- TODO  
+            <div class="row">
                 <div class="col-sm-12 col-sm-offset-1">
                     <div class="login-form">
                     <h2>Tambien puedes acceder con tu red social preferida</h2>
@@ -77,7 +78,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>  
+        --}}
     </div>
 </section>{{--./form--}}
 @endsection

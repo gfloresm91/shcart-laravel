@@ -6,7 +6,7 @@
                     <div class="contactinfo">
                         <ul class="nav nav-pills">
                             <li><a href="tel:+569 82715733"><i class="fa fa-phone"></i> +569 82715733</a></li>
-                            <li><a href="mailto:empleo@gabrielflores.cl"><i class="fa fa-envelope"></i> empleo@gabrielflores.cl</a></li>
+                            <li><a href="mailto:gabrielfloresmonsalve@gmail.com"><i class="fa fa-envelope"></i> gabrielfloresmonsalve@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -30,6 +30,7 @@
                     <div class="logo pull-left">
                         <a href="{{ route('product.index') }}"><img src="{{ asset('images/home/logo.png') }}" alt="Inicio" title="inicio" /></a>
                     </div>
+                    {{-- TODO
                     <div class="btn-group pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
@@ -41,13 +42,15 @@
                                 <li><a href="#">USD</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> 
+                    --}}
                 </div>
                 <div class="col-sm-12 col-md-7 col-lg-7">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            
+                            {{--TODO
                             <li><a href="#"><i class="fa fa-star"></i> Lista de deseos</a></li>
+                            --}}
                             <li>
                                 <a href="{{route('product.carro')}}">
                                     <i class="fa fa-shopping-cart"></i> 
@@ -84,6 +87,7 @@
                                         </li>
                                        
                                         <li class=" usermenu">
+                                            {{-- TODO
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <a href="#">Configuración de la cuenta <span class="glyphicon glyphicon-cog pull-right"></span></a>
@@ -98,7 +102,8 @@
                                                 <div class="col-lg-12">
                                                     <a href="#">Historial <span class="glyphicon glyphicon-th-list pull-right"></span></a>
                                                 </div>
-                                            </div>
+                                            </div>  
+                                            --}}
                                             <div class="divider"></div>
                                             <div class="row btnlogout">
                                                 <div class="col-lg-12">
@@ -136,28 +141,10 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="{{ route('product.index') }}" class="{{URL::current() == URL::route('product.index') ? 'active' : ''}}">Inicio</a></li>
                             <li><a href="{{ route('product.productos') }}" class="{{URL::current() == URL::route('product.productos') ? 'active' : ''}}">Productos</a></li>
-                            {{--
-                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="shop.html">Products</a></li>
-                                    <li><a href="product-details.html">Product Details</a></li> 
-                                    <li><a href="checkout.html">Checkout</a></li> 
-                                    <li><a href="cart.html">Cart</a></li> 
-                                    <li><a href="login.html">Login</a></li> 
-                                </ul>
-                            </li> 
-                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
-                                </ul>
-                            </li> 
-                            <li><a href="404.html">404</a></li>
-                            <li><a href="contact-us.html">Contact</a></li>
-                            --}}
                         </ul>
                     </div>
                 </div>
+                {{-- TODO
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
                         <form action="{{url('/search')}}" method="GET">
@@ -165,6 +152,7 @@
                         </form>
                     </div>
                 </div>
+                --}}
             </div>
         </div>
     </div>{{-- ./Header inferior --}}

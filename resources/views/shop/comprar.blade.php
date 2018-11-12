@@ -16,9 +16,10 @@
 					<h5>Por favor utilice estos datos para la tarjeta de credito</h5>
 				</div>
 				<div class="panel-body">
-					<p>Numero de tarjeta: <strong>4242 4242 4242 4242</strong></p>
+					<p>Email: <strong>test@test.cl</strong></p>
+					<p>Número de tarjeta: <strong>4242 4242 4242 4242</strong></p>
+					<p>MM/AA: <strong>02/22</strong></p>
 					<p>CVC: <strong>123</strong></p>
-					<p>Código postal: <strong>12345</strong></p>
 				</div>
 			</div>
 			<div id="checkout-errors" class="alert alert-danger {{ !Session::has('error') ? 'hidden' : '' }}">

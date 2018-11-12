@@ -22,6 +22,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
+					{{--  TODO
 					<div class="chose_area">
 						<ul class="user_option">
 							<li>
@@ -40,7 +41,7 @@
 						<ul class="user_info">
 							<li class="single_field">
 								<label>Región:</label>
-								{{--
+							
 								<select>
 									<option>United States</option>
 									<option>Bangladesh</option>
@@ -51,11 +52,11 @@
 									<option>Canada</option>
 									<option>Dubai</option>
 								</select>
-								--}}
+						
 							</li>
 							<li class="single_field">
 								<label>Ciudad:</label>
-								{{--
+						
 								<select>
 									<option>Select</option>
 									<option>Dhaka</option>
@@ -66,20 +67,20 @@
 									<option>Canada</option>
 									<option>Dubai</option>
 								</select>
-								--}}
+						
 							</li>
-							{{--
+					
 							<li class="single_field zip-field">
 								<label>Zip Code:</label>
 								<input type="text">
 							</li>
-							--}}
+					
 						</ul>
-						{{--
+				
 						<a class="btn btn-default update" href="">Get Quotes</a>
 						<a class="btn btn-default check_out" href="">Continue</a>
-						--}}
-					</div>
+				
+					</div>  --}}
 				</div>
 				<div class="col-sm-6">
 					<div class="total_area">

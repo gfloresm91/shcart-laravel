@@ -29,12 +29,14 @@
                             
                         </div>
                 </div>
+                {{-- TODO 
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
                         <li><a href="#"><i class="fa fa-plus-square"></i>Favoritos</a></li>
                         <li><a href="#"><i class="fa fa-plus-square"></i>Comparar</a></li>
                     </ul>
-                </div>
+                </div>  
+                --}}
                 <div class="choose">
                     <a href="{{route('product.productodetalle',['id' => $producto->id])}}" class="btn btn-primary btn-block">Ver detalle</a>
                 </div>
