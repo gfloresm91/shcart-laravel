@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01494d3bb5678f086cc432ac1f5c8b4a",
+    "content-hash": "f870af0539d9742ce338bf28b3ca99ca",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -864,34 +864,6 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
-            "name": "haifahrul/template-eshopper",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/haifahrul/template-eshopper.git",
-                "reference": "e3ce15c1dabb8a3d7b6098f36f85ccad604e2c39"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/haifahrul/template-eshopper/zipball/e3ce15c1dabb8a3d7b6098f36f85ccad604e2c39",
-                "reference": "e3ce15c1dabb8a3d7b6098f36f85ccad604e2c39",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ahmad Fakhrurozi Syah",
-                    "email": "haifahrul@gmail.com"
-                }
-            ],
-            "description": "This is just free template e-shopper",
-            "time": "2016-06-24T18:49:39+00:00"
-        },
-        {
             "name": "jakub-onderka/php-console-color",
             "version": "v0.2",
             "source": {
@@ -1728,16 +1700,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.1",
+            "version": "1.34.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9"
+                "reference": "6689b51b1dd5b1471c0f2c6df426037824114acc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
-                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/6689b51b1dd5b1471c0f2c6df426037824114acc",
+                "reference": "6689b51b1dd5b1471c0f2c6df426037824114acc",
                 "shasum": ""
             },
             "require": {
@@ -1745,8 +1717,11 @@
                 "symfony/translation": "~2.6 || ~3.0 || ~4.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2",
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
+            },
+            "suggest": {
+                "friendsofphp/php-cs-fixer": "Needed for the `composer phpcs` command. Allow to automatically fix code style.",
+                "phpstan/phpstan": "Needed for the `composer phpstan` command. Allow to detect potential errors."
             },
             "type": "library",
             "extra": {
@@ -1779,7 +1754,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-11-08T13:33:47+00:00"
+            "time": "2018-11-12T22:45:42+00:00"
         },
         {
             "name": "nikic/php-parser",
